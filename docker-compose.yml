@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - network1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: usersdb
+    volumes:
+      - postgres.users:/var/lib/postgres
+      
+  restapi:
+    container_name: restapi
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: restapi
+    ports:
+      - "8080:8080"
+    networks:
+      - network1
+    depends_on:
+      - postgres
+
+volumes:
+  postgres.users:
+  
+networks:
+  network1:
