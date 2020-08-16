@@ -1,26 +1,53 @@
-[
-  {
-    "id": 1,
-    "name": "Marcos",
-    "last_name": "Mendes",
-    "email": "marcos.mendes2@gmail.com",
-    "age": 50,
-    "created_date": "2020-01-25"
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "Marcos",
+      "last_name": "Mendes",
+      "email": "marcos.mendes2@gmail.com",
+      "age": 50,
+      "created_date": "2020-01-25"
+    },
+    {
+      "id": 2,
+      "name": "Marcos",
+      "last_name": "Pereira",
+      "email": "marcos.pereira@gmail.com",
+      "age": 28,
+      "created_date": "2020-02-13"
+    },
+    {
+      "id": 3,
+      "name": "Marcos",
+      "last_name": "Silva",
+      "email": "marcos.silva@gmail.com",
+      "age": 22,
+      "created_date": "2020-05-10"
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 20,
+    "paged": true,
+    "unpaged": false
   },
-  {
-    "id": 2,
-    "name": "Marcos",
-    "last_name": "Pereira",
-    "email": "marcos.pereira@gmail.com",
-    "age": 28,
-    "created_date": "2020-02-13"
+  "last": true,
+  "totalElements": 12,
+  "totalPages": 1,
+  "number": 0,
+  "size": 20,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
   },
-  {
-    "id": 3,
-    "name": "Marcos",
-    "last_name": "Silva",
-    "email": "marcos.silva@gmail.com",
-    "age": 22,
-    "created_date": "2020-05-10"
-  }
-]
+  "numberOfElements": 12,
+  "first": true,
+  "empty": false
+}

@@ -1,5 +1,6 @@
 package br.com.jeffersonmarques.restapi.service.impl
 
+import br.com.jeffersonmarques.restapi.RestPageImpl
 import br.com.jeffersonmarques.restapi.StreamUtils
 import br.com.jeffersonmarques.restapi.dto.UserDTO
 import br.com.jeffersonmarques.restapi.error.exception.ExistingEmailException
@@ -15,6 +16,9 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneId
@@ -32,6 +36,7 @@ class UserServiceImplTest {
     private lateinit var objectMapper: ObjectMapper
     private lateinit var streamUtils: StreamUtils
     private lateinit var userServiceImpl: UserServiceImpl
+    private lateinit var pageable: Pageable
 
     @Before
     fun setup() {
@@ -39,6 +44,7 @@ class UserServiceImplTest {
         streamUtils = StreamUtils()
         clock = Clock.fixed(Instant.parse("2020-08-13T12:00:00Z"), ZoneId.of("America/Sao_Paulo"))
         userServiceImpl = UserServiceImpl(userRepository, clock)
+        pageable = PageRequest.of(1, 10)
     }
 
     @Test
@@ -62,15 +68,17 @@ class UserServiceImplTest {
 
     @Test
     fun `find user by name`() {
+
         val expectedUsersWithEqualsNames = objectMapper
                 .readValue(streamUtils.inputStream(javaClass, "expected_users_with_equals_names.json"),
-                        ArrayList::class.java) as ArrayList<User>
+                        RestPageImpl::class.java) as RestPageImpl<User>
+
         val nameRequestParam = "Marcos"
 
-        Mockito.`when`(userRepository.findByNameLikeIgnoreCase(nameRequestParam))
+        Mockito.`when`(userRepository.findByNameContainingIgnoreCase(pageable, nameRequestParam))
                 .thenReturn(expectedUsersWithEqualsNames)
 
-        val actualUsersWithEqualsNames = userServiceImpl.findByName(nameRequestParam)
+        val actualUsersWithEqualsNames = userServiceImpl.findByName(pageable, nameRequestParam)
 
         Assert.assertEquals(expectedUsersWithEqualsNames, actualUsersWithEqualsNames)
     }

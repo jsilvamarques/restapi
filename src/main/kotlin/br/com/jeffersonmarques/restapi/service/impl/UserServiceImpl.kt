@@ -6,11 +6,10 @@ import br.com.jeffersonmarques.restapi.error.exception.UserNotFoundException
 import br.com.jeffersonmarques.restapi.model.User
 import br.com.jeffersonmarques.restapi.repository.UserRepository
 import br.com.jeffersonmarques.restapi.service.UserService
-import org.springframework.beans.BeanUtils
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.time.Clock
-import java.util.*
-import kotlin.collections.ArrayList
 
 @Service
 class UserServiceImpl(private val userRepository: UserRepository, private val clock: Clock) : UserService {
@@ -20,12 +19,12 @@ class UserServiceImpl(private val userRepository: UserRepository, private val cl
         return userRepository.save(userDTO.transformToUser(clock))
     }
 
-    override fun findAll(): MutableList<User> {
-        return userRepository.findAll()
+    override fun findAll(pageable: Pageable): Page<User> {
+        return userRepository.findAll(pageable)
     }
 
-    override fun findByName(name: String): ArrayList<User> {
-        return userRepository.findByNameLikeIgnoreCase(name)
+    override fun findByName(pageable: Pageable, name: String): Page<User> {
+        return userRepository.findByNameContainingIgnoreCase(pageable, name)
     }
 
     override fun update(userDTO: UserDTO, id: Long): User {
